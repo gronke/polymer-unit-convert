@@ -1,0 +1,84 @@
+<!doctype html>
+<head>
+  <title>unit-convert</title>
+
+  <script src="../../webcomponentsjs/webcomponents.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../polymer-unit-convert.html">
+</head>
+<body>
+  <test-fixture id="UnitConvert">
+    <template>
+      <unit-convert></unit-convert>
+    </template>
+  </test-fixture>
+  <script>
+
+  suite('<unit-convert>', function() {
+
+    var el;
+
+    setup(function () {
+      el = fixture('UnitConvert');
+    });
+
+    suite('basic usage', function() {
+
+      var testValues = {
+        from: "kilometer",
+        to: "mile",
+        value: 1234
+      };
+
+      setup(function() {
+        el.from = testValues.from.toString();
+        el.to = testValues.to.toString();
+        el.value = parseInt(testValues.value, 10);
+      });
+
+      test('input values are set properly', function() {
+        expect(el.from).to.be.equal(testValues.from);
+        expect(el.to).to.be.equal(testValues.to);
+        expect(el.value).to.be.equal(testValues.value);
+      });
+
+    });
+
+    suite('unit meter', function() {
+
+      setup(function() {
+        el.from = 'meter';
+      }); 
+
+      test('can be converted to mile', function() {
+
+        el.to = 'mile';
+
+        el.value = 1;
+        expect(el.normalizedValue).to.be.equal(1);
+        expect(el.result).to.be.equal(meterToMile(el.value));
+
+      });
+
+    });
+
+  });
+
+  function meterToMile(meter) {
+    return yardToMile(meterToYard());
+  }
+
+  function yardToMile(yard) {
+    return 1760 * yard;
+  }
+
+  function meterToYard(meter) {
+    return 0.9144;
+  }
+
+  </script>
+</body>
