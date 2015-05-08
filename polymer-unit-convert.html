@@ -1,0 +1,134 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer-unit-prefix/polymer-unit-prefix.html">
+
+<dom-module id="unit-convert">
+  <template>
+    <unit-prefix 
+      from="{{from}}" 
+      to="{{getBaseUnit(from)}}"
+      value="{{value}}"
+      result="{{normalizedValue}}">
+    </unit-prefix>
+    <unit-prefix 
+      from="{{getBaseUnit(to)}}" 
+      to="{{to}}"
+      value="{{normalizedResult}}"
+      result="{{Result}}">
+    </unit-prefix>
+  </template>
+</dom-module>
+<script>
+
+  var unitMap = {
+
+    "meter": {
+      "yard": 0.9144,
+      "mile": 0.9144 * 1760,
+    }
+
+  }
+
+  Polymer({
+
+    is: 'unit-convert',
+
+    properties: {
+      from: {
+        type: String,
+        notify: true
+      },
+      to: {
+        type: String,
+        notify: true
+      },
+      value: {
+        type: Number,
+        notify: true
+      },
+      normalizedValue: {
+        type: Number,
+        notify: true,
+        value: null
+      },
+      result: {
+        type: Number,
+        notify: true,
+        readOnly: true
+      },
+      normalizedResult: {
+        type: Number,
+        notify: true,
+        readOnly: true
+      }
+    },
+
+    ready: function() {
+      this.addEventListener('from-changed', this.update);
+      this.addEventListener('to-changed', this.update);
+      this.addEventListener('normalized-value-changed', this.update);
+      this.update();
+    },
+
+    update: function() {
+
+      if(!this.isComplete()) {
+        this._setResult(null);
+        return;
+      }
+
+      this._setResult(this.calculate());
+
+    },
+
+    calculate: function() {
+
+      if(this.isComplete()) {
+        var mapping = this.getUnitMapping(this.from, this.to);
+        debugger;
+        return this.normalizedValue * mapping;
+      }
+
+      return null;
+
+    },
+
+    isComplete: function() {
+      return (isDefined(this.from) && isDefined(this.to) && isDefined(this.normalizedValue));
+    },
+
+    getBaseUnit: function(unit) {
+      for(var prefix in unitMap) {
+        if(this.baseUnitMatches(prefix, unit)) {
+          return prefix;
+        }
+      }
+      return unit;
+    },
+
+    isDefined: function(value) {
+      return (value !== undefined) && (value !== null);
+    },
+
+    baseUnitMatches: function(suffix, unit) {
+
+      var baseUnitLength = unit.length - suffix.length;
+      return unit.substr(suffix.length-1, baseUnitLength);
+   
+    },
+
+    getUnitMapping: function(fromUnit, toUnit) {
+
+      var fromBaseUnit = this.getBaseUnit(fromUnit),
+          toBaseUnit = this.getBaseUnit(toUnit);
+
+      try {
+        return unitMap[fromBaseUnit][toBaseUnit];
+      } catch(e) {
+        return null;
+      }
+      
+    }
+
+  });
+
+</script>

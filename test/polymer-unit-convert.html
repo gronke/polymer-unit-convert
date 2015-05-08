@@ -51,16 +51,62 @@
     suite('unit meter', function() {
 
       setup(function() {
-        el.from = 'meter';
+        el.from = el.to = 'meter';
       }); 
+
+      test('meter is already normalized', function() {
+        el.value = 23;
+        expect(el.normalizedValue).to.be.equal(23);
+      });
 
       test('can be converted to mile', function() {
 
         el.to = 'mile';
 
         el.value = 1;
-        expect(el.normalizedValue).to.be.equal(1);
         expect(el.result).to.be.equal(meterToMile(el.value));
+
+      });
+
+      test('can be converted to yard', function() {
+
+        el.to = 'yard';
+
+        el.value = 1;
+        expect(el.normalizedValue).to.be.equal(1);
+        expect(el.result).to.be.equal(meterToYard(el.value));
+
+      });
+
+    });
+
+    suite('unit kilometer', function() {
+
+      setup(function() {
+        el.from = el.to = 'kilometer';
+      }); 
+
+      test('kilometer is normalized correctly', function() {
+        el.value = 23;
+        expect(el.normalizedValue).to.be.equal(23000);
+      });
+
+      test('can be converted to mile', function() {
+
+        el.to = 'mile';
+
+        el.value = 1;
+        expect(el.result).to.be.equal(meterToMile(el.value) * 1000);
+
+      });
+
+      test('can be converted to yard', function() {
+
+        el.to = 'yard';
+
+        el.value = 1;
+        expect(el.normalizedValue).to.be.equal(1000);
+        expect(el.result).to.be.equal(meterToYard(el.value) * 1000);
 
       });
 
