@@ -1,0 +1,18 @@
+{
+  "name": "polymer-unit-convert",
+  "dependencies": {
+    "polymer": "polymer/polymer#v0.9.0-rc.1",
+    "polymer-unit-prefix": "gronke/polymer-unit-prefix"
+  },
+  "devDependencies": {
+    "test-fixture": "polymerelements/test-fixture#^0.8.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#~0.6.0",
+    "paper-styles": "PolymerElements/paper-styles",
+    "prism-element": "PolymerElements/prism-element",
+    "hydrolysis": "Polymer/hydrolysis",
+    "web-component-tester": "~2.2.3",
+    "marked-element": "PolymerElements/marked-element"
+  },
+  "homepage": "https://github.com/gronke/polymer-unit-convert/",
+  "license": "MIT"
+}
