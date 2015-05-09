@@ -65,7 +65,22 @@
         return;
       }
 
-      this._setResult(this.calculate());
+      var normalizedResult = this.calculate(),
+          result = this.denormalize(this.to, normalizedResult);
+
+      this._setResult(result);
+
+    },
+
+    denormalize: function(unit, value) {
+
+      var baseUnit = this.getBaseUnit(unit);
+
+      unitPrefixElement.from = baseUnit;
+      unitPrefixElement.to = unit;
+      unitPrefixElement.value = value;
+
+      return unitPrefixElement.result;
 
     },
 
