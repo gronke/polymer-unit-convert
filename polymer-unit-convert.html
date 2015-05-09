@@ -121,6 +121,10 @@
       var fromBaseUnit = this.getBaseUnit(fromUnit),
           toBaseUnit = this.getBaseUnit(toUnit);
 
+      if(fromBaseUnit === toBaseUnit) {
+        return 1;
+      }
+
       try {
         return unitMap[fromBaseUnit][toBaseUnit];
       } catch(e) {
