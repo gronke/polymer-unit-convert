@@ -48,6 +48,32 @@
 
     });
 
+    suite('base unit', function() {
+
+      test('matches are detected', function() {
+        expect(el.baseUnitMatches('meter', 'meter')).to.be.true;
+        expect(el.baseUnitMatches('meter', 'kilometer')).to.be.true;
+        expect(el.baseUnitMatches('meter', 'mile')).to.be.false;
+        expect(el.baseUnitMatches('mile', 'meter')).to.be.false;
+        expect(el.baseUnitMatches('kilometer', 'kilometer')).to.be.true;
+        expect(el.baseUnitMatches('kilometer', 'meter')).to.be.false;
+      });
+
+      test('can be looked up', function() {
+        expect(el.getBaseUnit('meter')).to.be.equal('meter');
+        expect(el.getBaseUnit('kilometer')).to.be.equal('meter');
+        expect(el.getBaseUnit('meter')).to.be.equal('meter');
+        expect(el.getBaseUnit('meter')).to.be.equal('meter');
+
+        expect(el.baseUnitMatches('meter', 'kilometer')).to.be.true;
+        expect(el.baseUnitMatches('meter', 'mile')).to.be.false;
+        expect(el.baseUnitMatches('mile', 'meter')).to.be.false;
+        expect(el.baseUnitMatches('kilometer', 'kilometer')).to.be.true;
+        expect(el.baseUnitMatches('kilometer', 'meter')).to.be.false;
+      });
+
+    });
+
     suite('unit meter', function() {
 
       setup(function() {
@@ -76,6 +102,15 @@
         expect(el.normalizedValue).to.be.equal(1);
         expect(el.result).to.be.equal(meterToYard(el.value));
 
+      });
+
+      test('provides interface to calculate function', function() {
+        expect(el.normalize).to.be.a('function');
+
+        expect(el.calculate('mile', 'meter', 100)).to.be.equal(160934.4);
+        expect(el.calculate('mile', 'kilometer', 100)).to.be.equal(160.934);
+        expect(el.calculate('meter', 'mile', 10)).to.be.equal(1);
+        expect(el.calculate('centimeter', 'yard', 91.44)).to.be.equal(1);
       });
 
     });
@@ -115,15 +150,15 @@
   });
 
   function meterToMile(meter) {
-    return yardToMile(meterToYard());
+    return yardToMile(meterToYard(meter));
   }
 
   function yardToMile(yard) {
-    return 1760 * yard;
+    return yard / 1760;
   }
 
   function meterToYard(meter) {
-    return 0.9144;
+    return meter / 0.9144;
   }
 
   </script>

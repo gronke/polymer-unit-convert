@@ -5,15 +5,8 @@
   <template>
     <unit-prefix 
       from="{{from}}" 
-      to="{{getBaseUnit(from)}}"
       value="{{value}}"
       result="{{normalizedValue}}">
-    </unit-prefix>
-    <unit-prefix 
-      from="{{getBaseUnit(to)}}" 
-      to="{{to}}"
-      value="{{normalizedResult}}"
-      result="{{Result}}">
     </unit-prefix>
   </template>
 </dom-module>
@@ -22,12 +15,14 @@
   var unitMap = {
 
     "meter": {
-      "yard": 0.9144,
-      "mile": 0.9144 * 1760,
+      "yard": 1 / 0.9144,
+      "mile": 1 / 0.9144 / 1760,
     }
 
   };
 
+  var unitPrefixElement = document.createElement('unit-prefix');
+  
   Polymer({
 
     is: 'unit-convert',
@@ -52,12 +47,6 @@
       },
       result: {
         type: Number,
-        notify: true,
-        readOnly: true
-      },
-      normalizedResult: {
-        type: Number,
-        notify: true,
         readOnly: true
       }
     },
@@ -71,7 +60,7 @@
 
     update: function() {
 
-      if(!this.isComplete()) {
+      if(!areDefined([this.from, this.to, this.normalizedValue])) {
         this._setResult(null);
         return;
       }
@@ -80,40 +69,41 @@
 
     },
 
-    calculate: function() {
+    calculate: function(from, to, value) {
 
-      if(this.isComplete()) {
-        var mapping = this.getUnitMapping(this.from, this.to);
-        debugger;
-        return this.normalizedValue * mapping;
+      if(value) {
+        //debugger;
       }
 
-      return null;
+      from = from || this.from;
+      to = to || this.to;
+      value = value || this.normalizedValue;
 
-    },
+      if(areDefined([ from, to, value ])) {
+        var mapping = this.getUnitMapping(from, to);
+        return value * mapping;
+      }
 
-    isComplete: function() {
-      return (isDefined(this.from) && isDefined(this.to) && isDefined(this.normalizedValue));
+      return undefined;
+
     },
 
     getBaseUnit: function(unit) {
-      for(var prefix in unitMap) {
-        if(this.baseUnitMatches(prefix, unit)) {
-          return prefix;
-        }
+      return unitPrefixElement.getBaseUnit(unit);
+    },
+
+    baseUnitMatches: function(baseUnit, unit) {
+
+      if(baseUnit === unit) {
+        return true
+      } else if (baseUnit.length === unit.length) {
+        return false;
+      } else if(unit.indexOf(baseUnit) !== -1) {
+        return (unit.indexOf(baseUnit) + baseUnit.length) === unit.length;
       }
-      return unit;
-    },
 
-    isDefined: function(value) {
-      return (value !== undefined) && (value !== null);
-    },
+      return false;
 
-    baseUnitMatches: function(suffix, unit) {
-
-      var baseUnitLength = unit.length - suffix.length;
-      return unit.substr(suffix.length-1, baseUnitLength);
-   
     },
 
     getUnitMapping: function(fromUnit, toUnit) {
@@ -125,14 +115,49 @@
         return 1;
       }
 
-      try {
-        return unitMap[fromBaseUnit][toBaseUnit];
-      } catch(e) {
-        return null;
+      var i,j;
+      for(i in unitMap) {
+        if(unitMap.hasOwnProperty(i)) {
+
+          console.log(i);
+          for(j in unitMap[i]) {
+            if(unitMap[i].hasOwnProperty(j)) {
+
+              console.log(i, j);
+
+              if((j === fromBaseUnit) && (i === toBaseUnit)) {
+                return 1 / unitMap[i][j];
+              } else if((i === fromBaseUnit) && (j === toBaseUnit)) {
+                return unitMap[i][j];
+              }
+
+            }
+          }
+
+        }
       }
       
     }
 
   });
+
+  function areDefined (arr) {
+
+    var self = this,
+        allValuesAreDefined = true;
+
+    arr.forEach(function(value) {
+      if(!isDefined(value)) {
+        allValuesAreDefined = false;
+      }
+    });
+
+    return allValuesAreDefined;
+
+  }
+
+  function isDefined (value) {
+    return (value !== undefined) && (value !== null);
+  }
 
 </script>
