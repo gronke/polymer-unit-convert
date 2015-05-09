@@ -82,7 +82,7 @@
 
       test('meter is already normalized', function() {
         el.value = 23;
-        expect(el.normalizedValue).to.be.equal(23);
+        expect(el.result).to.be.equal(23);
       });
 
       test('can be converted to mile', function() {
@@ -90,7 +90,7 @@
         el.to = 'mile';
 
         el.value = 1;
-        expect(el.result).to.be.equal(meterToMile(el.value));
+        expect(el.result).to.be.equal(floatPrecision(meterToMile(el.value)));
 
       });
 
@@ -99,8 +99,7 @@
         el.to = 'yard';
 
         el.value = 1;
-        expect(el.normalizedValue).to.be.equal(1);
-        expect(el.result).to.be.equal(meterToYard(el.value));
+        expect(el.result).to.be.equal(floatPrecision(meterToYard(el.value)));
 
       });
 
@@ -108,8 +107,8 @@
         expect(el.normalize).to.be.a('function');
 
         expect(el.calculate('mile', 'meter', 100)).to.be.equal(160934.4);
-        expect(el.calculate('mile', 'kilometer', 100)).to.be.equal(160.934);
-        expect(el.calculate('meter', 'mile', 10)).to.be.equal(1);
+        expect(el.calculate('mile', 'kilometer', 100)).to.be.equal(160.9344);
+        expect(el.calculate('meter', 'mile', 10)).to.be.equal(floatPrecision(meterToMile(10)));
         expect(el.calculate('centimeter', 'yard', 91.44)).to.be.equal(1);
       });
 
@@ -121,17 +120,12 @@
         el.from = el.to = 'kilometer';
       }); 
 
-      test('kilometer is normalized correctly', function() {
-        el.value = 23;
-        expect(el.normalizedValue).to.be.equal(23000);
-      });
-
       test('can be converted to mile', function() {
 
         el.to = 'mile';
 
         el.value = 1;
-        expect(el.result).to.be.equal(meterToMile(el.value) * 1000);
+        expect(el.result).to.be.equal(floatPrecision(meterToMile(el.value) * 1000));
 
       });
 
@@ -140,14 +134,19 @@
         el.to = 'yard';
 
         el.value = 1;
-        expect(el.normalizedValue).to.be.equal(1000);
-        expect(el.result).to.be.equal(meterToYard(el.value) * 1000);
+        //expect(el.normalizedValue).to.be.equal(1000);
+        expect(el.result).to.be.equal(floatPrecision(meterToYard(el.value) * 1000));
 
       });
 
     });
 
   });
+
+  function floatPrecision(value, precision) {
+    precision = precision || 12;
+    return parseFloat(value.toPrecision(precision))
+  }
 
   function meterToMile(meter) {
     return yardToMile(meterToYard(meter));
