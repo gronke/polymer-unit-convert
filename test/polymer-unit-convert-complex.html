@@ -1,0 +1,210 @@
+<!doctype html>
+<head>
+  <title>unit-convert-complex</title>
+
+  <script src="../../webcomponentsjs/webcomponents.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../polymer-unit-convert-complex.html">
+</head>
+<body>
+  <test-fixture id="UnitConvertComplex">
+    <template>
+      <unit-convert-complex></unit-convert-complex>
+    </template>
+  </test-fixture>
+  <script>
+
+  suite('<unit-convert-complex>', function() {
+
+    var el;
+
+    setup(function () {
+      el = fixture('UnitConvertComplex');
+    });
+
+    suite('basic usage', function() {
+
+      var testValues = {
+        from: "kilometer",
+        to: "mile",
+        value: 1234
+      };
+
+      setup(function() {
+        el.from = testValues.from.toString();
+        el.to = testValues.to.toString();
+        el.value = parseInt(testValues.value, 10);
+      });
+
+      test('input values are set properly', function() {
+        expect(el.from).to.be.equal(testValues.from);
+        expect(el.to).to.be.equal(testValues.to);
+        expect(el.value).to.be.equal(testValues.value);
+      });
+
+    });
+
+    suite('complex values', function() {
+
+      var testValues = {
+        from: "kilometer",
+        to: "mile",
+        value: 1234
+      };
+
+      setup(function() {
+        el.from = 'kilometer/hour';
+        el.to = 'meter/second';
+      });
+
+      test('are parsed correctly', function() {
+
+        expect(el.from).to.be.equal('kilometer/hour');
+        expect(el.to).to.be.equal('meter/second');
+
+        expect(el.fromDivisor).to.be.equal('kilometer');
+        expect(el.fromDivident).to.be.equal('hour');
+
+        expect(el.toDivisor).to.be.equal('meter');
+        expect(el.toDivident).to.be.equal('second');
+
+      });
+
+    });
+
+    suite('complex unit meter/second', function() {
+
+      setup(function() {
+        el.from = el.to = 'meter/second';
+      }); 
+
+      test('meter/second is already normalized', function() {
+        el.value = 23;
+        expect(el.normalizedValue).to.be.equal(23);
+      });
+
+      test('can be converted to kilometer/second', function() {
+
+        el.to = 'kilometer/second';
+
+        el.value = 1000;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('can be converted to meter/minute', function() {
+
+        el.to = 'meter/minute';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 60;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('can be converted to meter/hour', function() {
+
+        el.to = 'meter/hour';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 60 * 60;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('can be converted to kilometer/hour', function() {
+
+        el.to = 'kilometer/hour';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 60;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+    });
+
+    suite('complex unit kilometer/hour', function() {
+
+      setup(function() {
+        el.from = el.to = 'kilometer/hour';
+      }); 
+
+      test('is normalized correctly', function() {
+        el.value = 3.6;
+        expect(el.normalizedValue).to.be.equal(1);
+      });
+
+      test('can be converted to meter/second', function() {
+
+        el.to = 'meter/second';
+
+        el.value = 3.6;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('can be converted to meter/minute', function() {
+
+        el.to = 'meter/minute';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 3.6 * 60;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('can be converted to meter/hour', function() {
+
+        el.to = 'meter/hour';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 3.6 * 60 * 60;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('does not change converting to kilometer/hour', function() {
+
+        el.to = 'kilometer/hour';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 23;
+        expect(el.result).to.be.equal(23);
+
+      });
+
+    });
+
+  });
+
+  function meterToMile(meter) {
+    return yardToMile(meterToYard());
+  }
+
+  function yardToMile(yard) {
+    return 1760 * yard;
+  }
+
+  function meterToYard(meter) {
+    return 0.9144;
+  }
+
+  </script>
+</body>
