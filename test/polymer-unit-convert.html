@@ -141,6 +141,166 @@
 
     });
 
+    suite('unit minute', function() {
+
+      setup(function() {
+        el.from = 'minute';
+      });
+
+      test('can be converted to millisecond', function() {
+
+        el.to = 'millisecond';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(60 * 1000);
+
+      });
+
+      test('can be converted to second', function() {
+
+        el.to = 'second';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(60);
+
+      });
+
+      test('can be converted to minute', function() {
+
+        el.to = 'minute';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('can be converted to hour', function() {
+
+        el.to = 'hour';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 60;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('can be converted to day', function() {
+
+        el.to = 'day';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 24 * 60;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('can be converted to week', function() {
+
+        el.to = 'week';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 24 * 7 * 60;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+    });
+
+    suite('unit hour', function() {
+
+      setup(function() {
+        el.from = 'hour';
+      }); 
+
+      test('can be converted to millisecond', function() {
+
+        el.to = 'millisecond';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(60 * 60 * 1000);
+
+      });
+
+      test('can be converted to second', function() {
+
+        el.to = 'second';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(60 * 60);
+
+      });
+
+      test('can be converted to minute', function() {
+
+        el.to = 'minute';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(60);
+
+      });
+
+      test('can be converted to hour', function() {
+
+        el.to = 'hour';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('can be converted to day', function() {
+
+        el.to = 'day';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 24;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('can be converted to week', function() {
+
+        el.to = 'week';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 24 * 7;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+    });
+
   });
 
   function floatPrecision(value, precision) {
