@@ -63,9 +63,9 @@
         return value;
       }
 
-      from = from || this.from;
-      to = to || this.to;
-      value = value || this.value;
+      from = isDefined(from) ? from : this.from;
+      to = isDefined(to) ? to : this.to;
+      value = isDefined(value) ? value : this.value;
       bePrecise = !!bePrecise;
 
       if(areDefined([ from, to, value ])) {
