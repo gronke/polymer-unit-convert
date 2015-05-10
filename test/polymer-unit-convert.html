@@ -89,6 +89,7 @@
 
       setup(function() {
         el.from = el.to = 'meter';
+        el.decimals = null;
       }); 
 
       test('meter is already normalized', function() {
@@ -172,6 +173,7 @@
 
       setup(function() {
         el.from = 'yard';
+        el.decimals = null;
       }); 
 
       test('can be converted to meter', function() {
@@ -258,6 +260,7 @@
 
       setup(function() {
         el.from = 'nautical_mile';
+        el.decimals = null;
       }); 
 
       test('can be converted to meter', function() {
@@ -331,6 +334,7 @@
 
       setup(function() {
         el.from = 'minute';
+        el.decimals = null;
       });
 
       test('can be converted to millisecond', function() {
@@ -411,6 +415,7 @@
 
       setup(function() {
         el.from = 'hour';
+        el.decimals = null;
       }); 
 
       test('can be converted to millisecond', function() {
@@ -482,6 +487,30 @@
 
         el.value = 24 * 7;
         expect(el.result).to.be.equal(1);
+
+      });
+
+    });
+
+    suite('result', function() {
+
+      test('is rounded when decimals attribute is set', function() {
+
+        el.from = 'meter';
+        el.to = 'meter';
+        el.value = 1.23456;
+
+        el.decimals = 0;
+        expect(el.result).to.be.equal(1);
+
+        el.decimals = 1;
+        expect(el.result).to.be.equal(1.2);
+
+        el.decimals = 2;
+        expect(el.result).to.be.equal(1.23);
+
+        el.decimals = 10;
+        expect(el.result).to.be.equal(1.23456);
 
       });
 

@@ -45,6 +45,11 @@
       result: {
         type: Number,
         readOnly: true
+      },
+      decimals: {
+        type: Number,
+        value: null,
+        notify: true
       }
     },
 
@@ -52,11 +57,20 @@
       this.addEventListener('from-changed', this.update);
       this.addEventListener('to-changed', this.update);
       this.addEventListener('value-changed', this.update);
+      this.addEventListener('decimals-changed', this.update);
       this.update();
     },
 
     update: function() {
-      this._setResult(this.calculate(this.from, this.to, this.value));
+
+      var result = this.calculate(this.from, this.to, this.value);
+
+      if(isDefined(this.decimals)) {
+        result = parseFloat(result).toFixed(this.decimals);
+      }
+
+      this._setResult(parseFloat(result));
+
     },
 
     calculate: function(from, to, value, bePrecise) {
