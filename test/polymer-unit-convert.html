@@ -125,6 +125,22 @@
 
     });
 
+    suite('common base unit lookup', function() {
+
+      test('detects meter as common unit of meter and yard', function() {
+        expect(el.findCommonMapParent('meter', 'yard')).to.be.equal('meter');
+      });
+
+      test('detects meter as common unit of nautical_mile and yard', function() {
+        expect(el.findCommonMapParent('nautical_mile', 'yard')).to.be.equal('meter');
+      });
+
+      test('detects meter as common unit of mile and yard', function() {
+        expect(el.findCommonMapParent('mile', 'yard')).to.be.equal('meter');
+      });
+
+    });
+
     suite('unit kilometer', function() {
 
       setup(function() {
