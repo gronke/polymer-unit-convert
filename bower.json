@@ -1,7 +1,7 @@
 {
   "name": "polymer-unit-convert",
   "dependencies": {
-    "polymer": "polymer/polymer#v0.9.0-rc.1",
+    "polymer": "polymer/polymer",
     "polymer-unit-prefix": "gronke/polymer-unit-prefix"
   },
   "devDependencies": {
