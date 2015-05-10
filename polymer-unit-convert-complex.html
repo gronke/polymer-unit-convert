@@ -28,6 +28,11 @@
         type: Number,
         readOnly: true,
         notify: true
+      },
+      decimals: {
+        type: Number,
+        notify: true,
+        value: null
       }
     },
 
@@ -61,6 +66,7 @@
 
       this.addEventListener('from-changed', this.update);
       this.addEventListener('to-changed', this.update);
+      this.addEventListener('decimals-changed', this.update);
       this.addEventListener('value-changed', onUpdate.value);
 
       this.update();
@@ -74,7 +80,13 @@
         return;
       }
 
-      this._setResult(this.calculate());
+      var result = this.calculate();
+
+      if(isDefined(this.decimals)) {
+        result = parseFloat(result).toFixed(this.decimals);
+      }
+
+      this._setResult(parseFloat(result));
 
     },
 

@@ -205,6 +205,30 @@
 
     });
 
+    suite('result', function() {
+
+      test('is rounded when decimals attribute is set', function() {
+
+        el.from = 'meter/second';
+        el.to = 'meter/second';
+        el.value = 1.23456;
+
+        el.decimals = 0;
+        expect(el.result).to.be.equal(1);
+
+        el.decimals = 1;
+        expect(el.result).to.be.equal(1.2);
+
+        el.decimals = 2;
+        expect(el.result).to.be.equal(1.23);
+
+        el.decimals = 10;
+        expect(el.result).to.be.equal(1.23456);
+
+      });
+
+    });
+
   });
 
   function meterToMile(meter) {
