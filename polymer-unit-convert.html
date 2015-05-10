@@ -71,15 +71,23 @@
       bePrecise = !!bePrecise;
 
       if(areDefined([ from, to, value ])) {
-        var normalizedValue = unitPrefixElement.normalize(value, from),
-            mapping = this.getUnitMapping(from, to),
-            result = unitPrefixElement.denormalize(normalizedValue * mapping, to);
+
+        var fromBaseUnit = this.getBaseUnit(from),
+            toBaseUnit = this.getBaseUnit(to),
+            commonBaseUnit = this.findCommonMapParent(fromBaseUnit, toBaseUnit);
+
+        value = unitPrefixElement.normalize(value, from);        
+        value *= this.getUnitMapping(fromBaseUnit, commonBaseUnit);
+        value *= this.getUnitMapping(commonBaseUnit, toBaseUnit);
+
+        result = unitPrefixElement.denormalize(value, to);
 
         if(!bePrecise) {
           return parseFloat(result.toPrecision(12));
         } else {
           return result;
         }
+
       }
 
       return undefined;
@@ -138,10 +146,7 @@
 
     },
 
-    getUnitMapping: function(fromUnit, toUnit) {
-
-      var fromBaseUnit = this.getBaseUnit(fromUnit),
-          toBaseUnit = this.getBaseUnit(toUnit);
+    getUnitMapping: function(fromBaseUnit, toBaseUnit) {
 
       if(fromBaseUnit === toBaseUnit) {
         return 1;
