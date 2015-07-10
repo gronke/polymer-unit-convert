@@ -516,6 +516,38 @@
 
     });
 
+    suite('abbreviations', function() {
+
+      test('interprets km as kilometer', function() {
+        expect(el.resolveAbbreviation('km')).to.be.equal('kilometer');
+      });
+      test('interprets m as meter', function() {
+        expect(el.resolveAbbreviation('m')).to.be.equal('meter');
+      });
+      test('interprets kt as knots', function() {
+        expect(el.resolveAbbreviation('kt')).to.be.equal('knots');
+      });
+      test('interprets h as hour', function() {
+        expect(el.resolveAbbreviation('h')).to.be.equal('hour');
+      });
+      test('interprets min as minute', function() {
+        expect(el.resolveAbbreviation('min')).to.be.equal('minute');
+      });
+      test('interprets s as second', function() {
+        expect(el.resolveAbbreviation('s')).to.be.equal('second');
+      });
+      test('interprets sec as second', function() {
+        expect(el.resolveAbbreviation('sec')).to.be.equal('second');
+      });
+      test('interprets n.m. as nautical_mile', function() {
+        expect(el.resolveAbbreviation('n.m.')).to.be.equal('nautical_mile');
+      });
+      test('interprets yd. as yard', function() {
+        expect(el.resolveAbbreviation('yd.')).to.be.equal('yard');
+      });
+
+    });
+
   });
 
   function floatPrecision(value, precision) {

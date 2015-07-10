@@ -7,6 +7,11 @@
   </template>
 </dom-module>
 <script>
+
+  var abbreviations = {
+    'mph': 'mile/hour'
+  };
+
   Polymer({
 
     is: 'unit-convert-complex',
@@ -62,7 +67,7 @@
         value: function() {
           self.update();
         }
-      }
+      };
 
       this.addEventListener('from-changed', this.update);
       this.addEventListener('to-changed', this.update);
@@ -98,6 +103,14 @@
 
       return complexUnit.split('/');
 
+    },
+
+    resolveAbbreviation: function(complexUnit) {
+      if(abbreviations.hasOwnProperty(complexUnit)) {
+        return abbreviations[complexUnit];
+      } else {
+        return unit;
+      }
     }
 
   });

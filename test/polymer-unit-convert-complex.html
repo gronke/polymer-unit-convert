@@ -229,6 +229,14 @@
 
     });
 
+    suite('abbreviations', function() {
+
+      test('interprets mph as mile/hour', function() {
+        expect(el.resolveAbbreviation('mph')).to.be.equal('mile/hour');
+      });
+
+    });
+
   });
 
   function meterToMile(meter) {

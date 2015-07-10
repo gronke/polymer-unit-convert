@@ -18,6 +18,18 @@
 
   };
 
+  var abbreviations = {
+    'km': 'kilometer',
+    'm': 'meter',
+    'kt': 'knots',
+    'h': 'hour',
+    'min': 'minute',
+    's': 'second',
+    'sec': 'second',
+    'n.m.': 'nautical_mile',
+    'yd.': 'yard'
+  };
+
   var unitPrefixElement = document.createElement('unit-prefix');
   
   Polymer({
@@ -73,14 +85,22 @@
 
     },
 
+    resolveAbbreviation: function(unit) {
+      if(abbreviations.hasOwnProperty(unit)) {
+        return abbreviations[unit];
+      } else {
+        return unit;
+      }
+    },
+
     calculate: function(from, to, value, bePrecise) {
 
       if(from === to) {
         return value;
       }
 
-      from = isDefined(from) ? from : this.from;
-      to = isDefined(to) ? to : this.to;
+      from = this.resolveAbbreviation(isDefined(from) ? from : this.from);
+      to = this.resolveAbbreviation(isDefined(to) ? to : this.to);
       value = isDefined(value) ? value : this.value;
       bePrecise = !!bePrecise;
 
