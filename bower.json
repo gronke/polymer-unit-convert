@@ -1,5 +1,8 @@
 {
   "name": "polymer-unit-convert",
+  "authors": [
+    { "name": "Stefan Grönke", "email": "stefan@gronke.net" }
+  ],
   "dependencies": {
     "polymer": "~1.0.5",
     "polymer-unit-prefix": "gronke/polymer-unit-prefix"
