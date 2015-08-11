@@ -239,6 +239,14 @@
         expect(el.resolveAbbreviation('km/h')).to.be.equal('kilometer/hour');
       });
 
+      test('km/h is correctly resolved to meter/second', function() {
+        el.from = 'km/h';
+        el.to = 'meter/second';
+
+        el.value = 3.6;
+        expect(el.result).to.be.equal(1);
+      });
+
     });
 
   });
