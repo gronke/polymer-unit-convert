@@ -8,6 +8,8 @@
 </dom-module>
 <script>
 
+(function() {
+
   var abbreviations = {
     'mph': 'mile/hour'
   };
@@ -43,8 +45,8 @@
 
     calculate: function(fromComplexUnit, toComplexUnit, value) {
 
-      fromComplexUnit = fromComplexUnit || this.from;
-      toComplexUnit = toComplexUnit || this.to;
+      fromComplexUnit = this.resolveAbbreviation(fromComplexUnit || this.from);
+      toComplexUnit = this.resolveAbbreviation(toComplexUnit || this.to);
       value = value || this.value;
 
       var from = this.parseComplexUnit(fromComplexUnit),
@@ -101,16 +103,25 @@
         return undefined;
       }
 
-      return complexUnit.split('/');
+      return complexUnit.split('/')
 
     },
 
     resolveAbbreviation: function(complexUnit) {
+
       if(abbreviations.hasOwnProperty(complexUnit)) {
+
         return abbreviations[complexUnit];
+
       } else {
-        return unit;
+
+        var unitConvert = document.createElement('unit-convert');
+        return this.parseComplexUnit(complexUnit).map(function(unit) {
+          return unitConvert.resolveAbbreviation(unit);
+        }).join('/');
+
       }
+      
     }
 
   });
@@ -119,4 +130,5 @@
     return (value !== undefined) && (value !== null);
   }
 
+})();
 </script>

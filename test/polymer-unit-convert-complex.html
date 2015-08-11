@@ -235,6 +235,10 @@
         expect(el.resolveAbbreviation('mph')).to.be.equal('mile/hour');
       });
 
+      test('interprets km/h as kilometer/hour', function() {
+        expect(el.resolveAbbreviation('km/h')).to.be.equal('kilometer/hour');
+      });
+
     });
 
   });

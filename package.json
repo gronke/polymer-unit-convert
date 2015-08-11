@@ -1,6 +1,6 @@
 {
   "name": "polymer-unit-convert",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Polymer element for unit conversion",
   "main": "index.js",
   "directories": {

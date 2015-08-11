@@ -1,5 +1,6 @@
 {
   "name": "polymer-unit-convert",
+  "version": "0.0.3",
   "authors": [
     { "name": "Stefan Grönke", "email": "stefan@gronke.net" }
   ],

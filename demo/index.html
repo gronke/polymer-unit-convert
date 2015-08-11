@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  <head>
+    <title>unit-convert</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../polymer-unit-convert.html">
+    <link rel="import" href="../polymer-unit-convert-complex.html">
+  </head>
+  <body>
+    <h1>unit-convert</h1>
+    <div>
+      <unit-convert-complex from="kilometer/second" to="mile/hour" value="100"></unit-convert-complex>
+
+      <unit-convert from="kilometer" to="mile" value="100"></unit-convert>
+    </div>
+    <script>
+      var el = document.querySelector('unit-convert-complex');
+      console.log('AHA', el.normalizedValue);
+    </script>
+  </body>
+</html>
