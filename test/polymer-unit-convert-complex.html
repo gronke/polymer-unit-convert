@@ -239,6 +239,10 @@
         expect(el.resolveAbbreviation('km/h')).to.be.equal('kilometer/hour');
       });
 
+      test('interprets knots as nautical_mile/hour', function() {
+        expect(el.resolveAbbreviation('knots')).to.be.equal('nautical_mile/hour');
+      });
+
       test('km/h is correctly resolved to meter/second', function() {
         el.from = 'km/h';
         el.to = 'meter/second';
