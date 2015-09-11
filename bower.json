@@ -21,6 +21,7 @@
   "license": "MIT",
   "keywords": [
     "convert",
+    "quantize",
     "unit",
     "polymer",
     "web-components"
