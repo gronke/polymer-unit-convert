@@ -18,5 +18,11 @@
     "marked-element": "PolymerElements/marked-element"
   },
   "homepage": "https://github.com/gronke/polymer-unit-convert/",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": [
+    "convert",
+    "unit",
+    "polymer",
+    "web-components"
+  ]
 }

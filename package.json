@@ -19,9 +19,11 @@
     "url": "https://github.com/gronke/polymer-unit-convert.git"
   },
   "keywords": [
-    "polymer",
+    "convert",
     "quantize",
-    "convert"
+    "unit",
+    "polymer",
+    "web-components"
   ],
   "author": "Stefan Grönke <stefan@gronke.net>",
   "license": "MIT",
